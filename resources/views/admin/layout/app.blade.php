@@ -10,7 +10,7 @@
         content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
     <meta name="robots" content="noindex,nofollow">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/logo.png') }}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/bower_components/chartist/dist/chartist.min.css') }}">
@@ -132,7 +132,7 @@
             @yield('content')
         </div>
         <footer class="footer text-center"> © <?php echo date('Y'); ?> <a href="https://tareacompleto1.blogspot.com/"
-                target="_blank">Tarea Completo</a>
+                target="_blank">Salir</a>
         </footer>
     </div>
 

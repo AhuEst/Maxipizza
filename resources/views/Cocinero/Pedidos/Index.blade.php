@@ -27,35 +27,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($ordenesPendientes)
+                                @foreach ($ordenesPendientes as $orden)
+                                    {{$orden}}
                                     <tr>
-                                        <td>{{ $pedido->id }}</td>
-                                        <td>{{ $pedido->cliente }}</td> <!-- Nombre del cliente -->
+                                        <td>{{ $orden->id }}</td>
+                                        <td>{{ $orden->cliente }}</td>
                                         <td>
-                                            @foreach($pedido->detalles as $detalle)
-                                                <span>{{ $detalle->plato->nombre }}: {{ $detalle->cantidad }} x
-                                                    ${{ number_format($detalle->precio, 2) }}</span><br>
-                                                <!-- Nombre del plato y cantidad -->
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @if ($pedido->estado == 1)
+                                            @if ($orden->estado == 1)
                                                 En preparación
-                                            @elseif ($pedido->estado == 2)
+                                            @elseif ($orden->estado == 2)
                                                 Listo para entregar
                                             @else
                                                 Desconocido
                                             @endif
                                         </td>
                                         <td class="d-flex justify-center">
-                                            <form action="{{ route('cook.marcar_preparado', $pedido->id) }}" method="POST"
+                                            <form action="{{ route('cook.marcar_preparado', $orden->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary btn-sm mx-1">
                                                     <i class="fas fa-utensils"></i> En preparación
                                                 </button>
                                             </form>
-                                            <form action="{{ route('cook.marcar_preparado', $pedido->id) }}" method="POST"
+                                            <form action="{{ route('cook.marcar_preparado', $orden->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm mx-1">

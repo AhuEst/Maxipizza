@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
@@ -44,7 +44,7 @@
                         <thead>
                             <tr>
                                 <th style="width:5%;">ID</th>
-                                <th style="width:15%;">Nombre</th>
+                                <th style="width:15%;">Nobmre</th>
                                 <th style="width:20%;">Apellidos</th>
                                 <th style="width:15%;">Direccion</th>
                                 <th style="width:10%;">Telefono</th>

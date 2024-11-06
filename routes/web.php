@@ -43,10 +43,6 @@ Route::get('/orden/detail/{id}',[OrdenesController::class,'detail'])->name('arde
 Route::get('/orden/store/{id}',[OrdenesController::class,'store'])->name('orden.finalizar');
 Route::get('/contadororden', [OrdenesController::class, 'getcontorden'])->name('contadororden');
 
-Route::get('/cook/pedidos', [OrdenesController::class, 'pedidosPendientes'])->name('Cocinero.pedidos');
-Route::get('/cook/pedido/{id}', [OrdenesController::class, 'detallePedidoCocinero'])->name('cook.detalle_pedido');
-Route::post('/cook/pedido/{id}/preparado', [OrdenesController::class, 'marcarComoPreparado'])->name('cook.marcar_preparado');
-
 Route::get('/client/carrito',[ClientController::class,'carrito'])->name('client.carrito');
 Route::get('/client/menu',[ClientController::class,'menu'])->name('client.menu');
 Route::get('/client/detail/{id}',[ClientController::class,'detail'])->name('client.detail');

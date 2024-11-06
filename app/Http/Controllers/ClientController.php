@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Calificacion; 
+use App\Models\Calificacion;
 use App\Models\Platos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,25 +10,33 @@ use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
-     
+
     public function index()
-    { 
+    {
         return view('admin.clientes.index' );
     }
-    public function detail(Request $request) 
+    public function detail(Request $request)
     {
         $platos =  Platos::find($request->id);
         return view('client.detail', compact('platos'));
     }
     public function menu()
-    {   
-        $platos = Platos::where('Estado', 1)->get();
-         
-        return view('client.menu', compact('platos'));
+    {
+        // Cargar solo los platos activos (Estado = 1) con la relación de categoría
+        $platos = Platos::with('categoria')->where('Estado', 1)->get();
+
+        // Agrupar platos por categoría
+        $platosPorCategoria = $platos->groupBy(function($plato) {
+            return $plato->categoria->nombre; // Agrupar por el nombre de la categoría
+        });
+
+        // Pasar la variable a la vista
+        return view('client.menu', compact('platosPorCategoria'));
     }
+
     public function carrito()
-    {  
-        if (Auth::user()) { 
+    {
+        if (Auth::user()) {
             $id_user = Auth::user()->id;
             $carrito = DB::table('carrito')
             ->join('platos', 'carrito.id_platos', '=', 'platos.id')
@@ -41,17 +49,17 @@ class ClientController extends Controller
     }
     public function store(Request $request)
     {
-        
+
     }
     public function calificacion(Request $request)
     {
         $id_user = Auth::user()->id;
-        if ($request->ajax()) { 
+        if ($request->ajax()) {
             $calificacion = new Calificacion();
             $calificacion->id_cliente = $id_user;
             $calificacion->puntuacion = $request->cont;
             $calificacion->opinion = $request->opinion;
-            $rpt= $calificacion->save(); 
+            $rpt= $calificacion->save();
             if($rpt){
                 $estado = 1;
             }else{
@@ -59,13 +67,13 @@ class ClientController extends Controller
             }
             echo json_encode($estado);
         }
-    } 
-    public function cali_estar(Request $request){ 
+    }
+    public function cali_estar(Request $request){
         if ($request->ajax()) {
-            $cont = Calificacion::all()->count(); 
+            $cont = Calificacion::all()->count();
             $calificacion = DB::table('calificacion')
             ->join('users', 'calificacion.id_cliente', '=', 'users.id')
-            ->select('users.name as nombres',  'calificacion.*') 
+            ->select('users.name as nombres',  'calificacion.*')
             ->get();
 
             $data = array('calificacion' => $calificacion, 'cont' => $cont);

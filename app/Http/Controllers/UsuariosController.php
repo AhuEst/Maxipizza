@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,10 +11,14 @@ class UsuariosController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.usuarios.index', compact('users'));
+        $roles = Roles::all(); // Asegúrate de obtener los roles desde la base de datos
+        return view('admin.usuarios.index', compact('users', 'roles')); // Pasa los roles a la vista
     }
 
+
     // Almacena un nuevo usuario
+    // Almacena un nuevo usuario
+// Almacena un nuevo usuario
     public function store(Request $request)
     {
         $request->validate([
@@ -25,6 +29,7 @@ class UsuariosController extends Controller
             'direccion' => 'required|string|max:255',
             'tipo_doc' => 'required|string',
             'num_doc' => 'required|string',
+            'rol_id' => 'required|integer', // Validar rol_id
         ]);
 
         $user = new User();
@@ -33,14 +38,19 @@ class UsuariosController extends Controller
         $user->password = bcrypt($request->password);
         $user->telefono = $request->telefono;
         $user->direccion = $request->direccion;
-        $user->tipo_doc = $request->tipo_doc;  // Añadir
-        $user->num_doc = $request->num_doc;    // Añadir
-        $user->rol_id = $request->rol_id ?? 2; // Asignar rol_id
+        $user->tipo_doc = $request->tipo_doc;
+        $user->num_doc = $request->num_doc;
+
+        // Asignar rol_id, usando 2 si no se proporciona
+        $user->rol_id = $request->rol_id ?? 2;
 
         $user->save();
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado con éxito.');
     }
+
+
+
 
 
     // Muestra un usuario específico
@@ -80,6 +90,7 @@ class UsuariosController extends Controller
         return redirect()->route('usuarios.index');
     }
 
+
     // Elimina un usuario
     public function destroy($id)
     {
@@ -87,4 +98,6 @@ class UsuariosController extends Controller
         $user->delete();
         return redirect()->route('usuarios.index');
     }
+
+
 }

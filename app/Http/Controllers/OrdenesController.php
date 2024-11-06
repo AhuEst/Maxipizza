@@ -24,9 +24,9 @@ class OrdenesController extends Controller
             ->join('users', 'orden.id_cliente', '=', 'users.id')
             ->select('users.name as nombre', 'orden.*')
             ->where('orden.estado', '=', 1)
-            ->get();
+            ->get(); 
 
-        return view('admin.pedidos.index', compact('orden'));
+        return  view('admin.pedidos.index', compact('orden'));
     }
     public function create(Request $request)
     {
@@ -37,69 +37,59 @@ class OrdenesController extends Controller
         $orden->envio = $request->envio;
         $orden->estado = 1;
         $orden->save();
-        $orden->idguardado = $orden->id;
+        $orden->idguardado = $orden->id; 
         $carrito = DB::table('carrito')
             ->join('platos', 'carrito.id_platos', '=', 'platos.id')
             ->select('carrito.id as id_carrito', 'carrito.cantidad as cantidad', 'platos.*')
             ->where('carrito.id_user', '=', $id_user)
-            ->get();
+            ->get(); 
 
-        $item = 0;
-        foreach ($carrito as $row) {
+        $item = 0;   
+        foreach($carrito as $row) {
             $item++;
             $detalle_orden = new Detalle_orden();
             $detalle_orden->id_orden = $orden->idguardado;
             $detalle_orden->id_platos = $row->id;
             $detalle_orden->precio = $row->Precio;
             $detalle_orden->cantidad = $row->cantidad;
-            $detalle_orden->total = ($row->Precio * $row->cantidad);
+            $detalle_orden->total =($row->Precio*$row->cantidad);
             $detalle_orden->item = $item;
             $detalle_orden->save();
-            $platos = Platos::find($row->id);
-            $platos->Estok = $platos->Estok - 1;
+            $platos =  Platos::find($row->id);
+            $platos->Estok = $platos->Estok-1;
             $platos->save();
         }
-
-        $car = Carrito::where('id_user', $id_user);
+        
+        $car = Carrito::where('id_user',$id_user);
         $car->delete();
         return view('client.calificacion');
     }
     public function detail($id)
-    {
+    { 
         $orden_detalle = DB::table('detalle_orden')
             ->join('orden', 'detalle_orden.id_orden', '=', 'orden.id')
             ->join('users', 'orden.id_cliente', '=', 'users.id')
             ->join('platos', 'detalle_orden.id_platos', '=', 'platos.id')
-            ->select('detalle_orden.item as item', 'detalle_orden.cantidad as cantidad', 'orden.id as id_orden', 'orden.total as total', 'orden.envio', 'users.name as name', 'users.email as email', 'users.direccion as direccion', 'users.telefono as telefono', 'platos.*')
+            ->select('detalle_orden.item as item','detalle_orden.cantidad as cantidad', 'orden.id as id_orden', 'orden.total as total', 'orden.envio','users.name as name','users.email as email', 'users.direccion as direccion', 'users.telefono as telefono', 'platos.*')
             ->where('detalle_orden.id_orden', '=', $id)
-            ->get();
-        return view('Cocinero.Pedidos', compact('orden_detalle'));
+            ->get();  
+        return  view('admin.pedidos.detail', compact('orden_detalle'));
     }
     public function store($id)
     {
-        $orden = Orden::find($id);
+        $orden =  Orden::find($id);
         $orden->estado = 0;
         $orden->save();
         return redirect()->route('orden.pedidos');
         // return $id;
     }
-    public function getcontorden(Request $request)
-    {
+    public function getcontorden( Request $request)
+    { 
         if ($request->ajax()) {
             $cantidad = Orden::where('estado', 1)->count();
             $data = array('cont_orden' => $cantidad);
             echo json_encode($data);
-        }
-    }
-
-    public function pedidosPendientes()
-    {
-        $ordenesPendientes = Orden::where('estado', 0)
-            ->join('users', 'orden.id_cliente', '=', 'users.id')
-            ->select('users.name', 'orden.*')
-            ->get();
-        // dd($ordenesPendientes);
-        return view('Cocinero.Pedidos.Index', compact('ordenesPendientes'));
+        } 
     }
 
 

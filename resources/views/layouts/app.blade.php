@@ -99,13 +99,13 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="footer text-white" style="background-color: #3A4C8B">
+    <footer class="footer text-white" style="background-color: #58d68d">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-4">
                     <ul class="list-unstyled">
                         <li>
-                            <h5 class="font-weight-bold"> @ <?php echo date('Y'); ?><a target="_blank" class="text-white"> MaxiPizza</a></h5>
+                            <h5 class="font-weight-bold"> @ <?php echo date('Y'); ?><a href="https://tareacompleto1.blogspot.com/" target="_blank" class="text-white"> Salir</a></h5>
                         </li>
 
                     </ul>
@@ -125,14 +125,14 @@
                         </li>
                         <li>
                             <a href="#" class="footer-link text-white" target="_blank">
-                                <i class="fas fa-check-double"></i> Facebook
+                                <i class="fas fa-check-double"></i> Instagram Maxipizza
                             </a>
                         </li>
 
                         <li>
                             <a href="#" class="footer-link text-white" target="_blank">
                                 <i class="fas fa-check-double"></i>
-                                Youtube
+                                Facebook MaxiPizza
                             </a>
                         </li>
                     </ul>
